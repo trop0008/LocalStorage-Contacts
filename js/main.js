@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", init);
+var output = document.querySelector("#output");
 
-
-function init(){              
-                         
-     document.querySelector("#btnClose").addEventListener("click", function(ev){
+function init(){             
+    try{
+    if( localStorage ){
+  //add listener to button
+//  document.getElementById("btnSave").addEventListener("click", setStorage);
+ // showStorage();
+        
+         document.querySelector("#btnClose").addEventListener("click", function(ev){
   ev.preventDefault();
   /* if the button was a submit button we need to stop the form submitting */
 
@@ -22,6 +27,17 @@ function init(){
   /* Add any code you need to process the contents of the form 
     shown in the modal window */
 });
+    
+        
+}else{
+  output.innerHTML = "Sorry but your browser does not support localStorage";
+}
+} catch(e){
+    output.innerHTML = "Sorry but your browser does not support localStorage";
+    
+    console.log(e);
+}
+                         
     
     
 }
