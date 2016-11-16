@@ -26,3 +26,32 @@ function init(){
     
 }
 
+let li= ev.currentTarget.parentElement;
+let contactName = li.querySelector("h3").textContent;
+for ( var i =0 , len= contacts.length ; i< len ; i++)
+if (contacts[i].fullname == contactName){
+    
+    index = i;
+    break;
+    
+}
+}
+     
+     if (index>-1){
+    
+    contacts.splice(index, 1);
+    
+    li.parentElement.removeChild(li);
+    
+    if (contacts.length >0){
+        
+        saveContacts();} else {
+          localStorage.removeItem("contacts");
+            
+        }
+            
+        }
+    }
+}
+}
+
