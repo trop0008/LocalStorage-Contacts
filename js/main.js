@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", init);
 var output = document.querySelector("#output");
 
+//making sure I have the code
 function init(){             
     try{
     if( localStorage ){
