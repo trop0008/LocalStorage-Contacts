@@ -3,7 +3,7 @@ var output = document.querySelector("#output");
 function showStorage() {
     // adding default data 
     if(! localStorage.getItem("trop0007")){
-    let temp = [{"fullname":"Marjan Tropper","phone":"613-862-7210","email":"trop0008@algonquinlive.com"}];
+    let temp = [{"Id":"Id0","fullname":"Marjan Tropper","phone":"613-862-7210","email":"trop0008@algonquinlive.com"}];
     temp = JSON.stringify(temp);
     localStorage.setItem("trop0007", temp);
   }
@@ -13,13 +13,13 @@ function showStorage() {
 }
 // editing the the content
 function editKey(){
-    
+    alert("calling edit Key")
     
 }
 
 // removing the content
 function removeKey(){
-    
+    alert("calling remove Key")
 }
 
 // displaying the local storage
@@ -48,8 +48,8 @@ function displayStorage(){
     //check to see if value is an array
     let val;
     let pv = document.createElement("p");
-    div.setAttribute("data-key", prop);
-    div.setAttribute("data-val", info[prop] );
+  //  div.setAttribute("data-key", prop);
+   // div.setAttribute("data-val", info[prop] );
       console.log(info[prop]);
     if(info[prop].indexOf("[") > -1){
       val = JSON.parse(info[prop]);
@@ -57,14 +57,28 @@ function displayStorage(){
         //add a ul and loop through array to display list items
         pv.innerHTML = "Value: ";
         let ul = document.createElement("ul");
-        for(let p in val){
+        val.forEach(function(item,index){
+            
+          
           let li = document.createElement("li");
-          li.textContent = val[p];
+          li.innerHTML = "<span class='delete'></span><h3>" + item.fullname + "</h3><p class='email'>" + item.email + "</p><p class='phone'>" + item.phone + "</p>";
+            li.className="contact";
+            li.id=item.Id;
+            li.addEventListener("click", editKey);
+            let spanDelete = li.getElementsByClassName("delete");
+            console.log(spanDelete)
+             spanDelete.addEventListener("click", removeKey);
+            
+        
+        
+            
           ul.appendChild(li);
-        }
+            
+        });
         pv.appendChild(ul);
       }else{
         pv.innerHTML = "Value: <span>" + info[prop] + "</span>";
+          
       }
     }else{
       val = info[prop];
