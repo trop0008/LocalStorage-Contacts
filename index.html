@@ -14,8 +14,8 @@
   <header>
     <h1>Contact Manager</h1>
   </header>
-  <main>
-    <ul class="contacts">
+  <main id="output">
+    <ul class="contacts" id="allData">
       <li class="contact">
         <span class="delete"></span>
         <h3>Luke Skywalker</h3>
@@ -58,7 +58,42 @@
    <div class="overlay"></div>
   <div class="modal">
   <!-- content to show the user. Often this will contain a form -->
-  <button id="btnClose">Close | Save</button>
+  <button id="btnClose">Cancel</button>
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+
+    <form class="form" id="form1">
+      
+      <p class="name">
+        <input name="fullname" type="text" class="feedback-input" placeholder="Full Name" id="fullname" autofocus required />
+      </p>
+      
+      <p class="email">
+        <input name="email" type="email" class="feedback-input" id="email" placeholder="Email" required />
+      </p>
+      <p class="phone">
+        <input name="phone" type="tel"  id="phone"  class="feedback-input" placeholder="Phone Number xxx-xxx-xxxx "pattern='\d{3}[\-]\d{3}[\-]\d{4}' required />
+      </p>
+      
+      
+      
+      
+      <div class="submit">
+        <input type="submit" value="SEND" id="button-blue"/>
+        <div class="ease"></div>
+      </div>
+    </form>
+ 
+  
+  
+  
 </div>
     <div id="btnOpenModal" class="fab"></div>
   </footer>
