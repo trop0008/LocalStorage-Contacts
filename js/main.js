@@ -31,12 +31,10 @@ function removeKey(ev) {
 function addData() {
     let info = localStorage;
     for (prop in info) {
-        //console.log(prop, info[prop]);
+        
         //check to see if value is an array
         let val;
-        //  div.setAttribute("data-key", prop);
-        // div.setAttribute("data-val", info[prop] );
-        //  console.log(info[prop]);
+        
         if (info[prop].indexOf("[") > -1) {
             val = JSON.parse(info[prop]);
             if (Array.isArray(val)) {
@@ -61,6 +59,8 @@ function addData() {
                 val=JSON.stringify(val)
                 localStorage.setItem("trop0007", val);
                 displayStorage();
+                document.querySelector(".overlay").style.display = "none";
+                document.querySelector(".modal").style.display = "none";
             }
         }
     }
@@ -120,17 +120,21 @@ function init() {
                 /* Add any code you need to process the contents of the form 
                   shown in the modal window */
             });
+            /*
             document.querySelector("#button-blue").addEventListener("click", function (ev) {
-                ev.preventDefault();
+                ev.preventDefault();*/
                 
                 /* if the button was a submit button we need to stop the form submitting */
                 document.querySelector(".overlay").style.display = "none";
                 document.querySelector(".modal").style.display = "none";
                 /* Add any code you need to process the contents of the form 
                   shown in the modal window */
+                 
+               /*
                 addData();
-                //id="addButton"
-            });
+                
+            });*/
+        //   document.getElementById("form1").setAttribute("action", "return addData");
             
             document.querySelector("#btnOpenModal").addEventListener("click", function (ev) {
                 ev.preventDefault();
