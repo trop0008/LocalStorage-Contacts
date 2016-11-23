@@ -24,8 +24,59 @@ function editKey(ev) {
 }
 // removing the content
 function removeKey(ev) {
+    if(ev.currentTarget){
     let getId = ev.currentTarget.parentElement.id;
-    alert("calling remove Key " + getId);
+    
+    
+    let info = localStorage;
+    for (prop in info) {
+        
+        //check to see if value is an array
+        let val;
+        
+        if (info[prop].indexOf("[") > -1) {
+            val = JSON.parse(info[prop]);
+            if (Array.isArray(val)) {
+               
+                     
+                val.forEach(function (item, index) {
+                 if (item.Id== getId ) {
+                     console.log(item.Id +" "+ getId);
+               val.splice(item,1);
+                      val=JSON.stringify(val);
+                     
+                      
+                localStorage.setItem("trop0007", val);
+                     console.log(val);
+                     
+                     let spanDelete = document.getElementById("span" + getId); 
+                        spanDelete.removeEventListener("click", removeKey);
+                    let spanEdit = document.getElementById("spanedit" + getId);
+                    
+                    spanEdit.removeEventListener("click", editKey);
+                     console.log(spanDelete);
+                     console.log(spanEdit);
+                     let element = document.getElementById(getId); 
+                     element.parentNode.removeChild(element);
+                     
+                     
+                     
+                 }
+                     
+                   
+                    
+                   
+                });
+                
+               
+               
+                
+            }
+        }
+    }
+    }
+    
+    
 }
 // adding content:
 function addData() {
@@ -72,12 +123,10 @@ function displayStorage() {
     section.innerHTML = "";
     let info = localStorage;
     for (prop in info) {
-        //console.log(prop, info[prop]);
+        
         //check to see if value is an array
         let val;
-        //  div.setAttribute("data-key", prop);
-        // div.setAttribute("data-val", info[prop] );
-        //  console.log(info[prop]);
+        
         if (info[prop].indexOf("[") > -1) {
             val = JSON.parse(info[prop]);
             if (Array.isArray(val)) {
@@ -90,27 +139,34 @@ function displayStorage() {
                     li.className = "contact";
                     li.id = item.Id;
                     docfrag.appendChild(li);
+                    console.log(item);
                 });
                 section.appendChild(docfrag);
                 for (let x = 0; x < indexLength; x++) {
                     let spanDelete = document.getElementById("spanId" + x);
-                    console.log(spanDelete);
-                    spanDelete.addEventListener("click", removeKey);
+                  
+                     console.log(x);
+                   
+                    if(spanDelete){
+                        console.log
+                         spanDelete.addEventListener("click", removeKey);
+                    }
                     let spanEdit = document.getElementById("spaneditId" + x);
-                    console.log(spanDelete);
-                    spanEdit.addEventListener("click", editKey);
+                     if(spanEdit){
+                          spanEdit.addEventListener("click", editKey);
+                    }
+                   
                 }
             }
         }
     }
-    //console.dir(localStorage);
+   
 }
 
 function init() {
     try {
         if (localStorage) {
             //add listener to button
-            //  document.getElementById("btnSave").addEventListener("click", setStorage);
             showStorage();
             document.querySelector("#btnClose").addEventListener("click", function (ev) {
                 ev.preventDefault();
@@ -120,30 +176,17 @@ function init() {
                 /* Add any code you need to process the contents of the form 
                   shown in the modal window */
             });
-            /*
-            document.querySelector("#button-blue").addEventListener("click", function (ev) {
-                ev.preventDefault();*/
-                
-                /* if the button was a submit button we need to stop the form submitting */
+           
                 document.querySelector(".overlay").style.display = "none";
                 document.querySelector(".modal").style.display = "none";
-                /* Add any code you need to process the contents of the form 
-                  shown in the modal window */
-                 
-               /*
-                addData();
                 
-            });*/
-        //   document.getElementById("form1").setAttribute("action", "return addData");
             
             document.querySelector("#btnOpenModal").addEventListener("click", function (ev) {
                 ev.preventDefault();
                 /* if the button was a submit button we need to stop the form submitting */
                 document.querySelector(".overlay").style.display = "block";
                 document.querySelector(".modal").style.display = "block";
-              //  addData();
-                /* Add any code you need to process the contents of the form 
-                  shown in the modal window */
+              
             });
         }
         else {
@@ -155,36 +198,8 @@ function init() {
         console.log(err.message);
     }
 }
-/*
-let li= ev.currentTarget.parentElement;
-let contactName = li.querySelector("h3").textContent;
-for ( var i =0 , len= contacts.length ; i< len ; i++)
-if (contacts[i].fullname == contactName){
-    
-    index = i;
-    break;
-    
-}
-}
-     
-     if (index>-1){
-    
-    contacts.splice(index, 1);
-    
-    li.parentElement.removeChild(li);
-    
-    if (contacts.length >0){
-        
-        saveContacts();} else {
-          localStorage.removeItem("contacts");
-            
-        }
-            
-        }
-    }
-}
-}
 
-*/
+
+
 // checking to see if the document is loaded and initiating the functions
 document.addEventListener("DOMContentLoaded", init);
