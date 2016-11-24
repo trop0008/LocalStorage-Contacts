@@ -114,6 +114,7 @@ function removeKey(ev) {
     document.querySelector(".overlay").style.display = "block";
     if (ev.currentTarget) {
         let getId = ev.currentTarget.parentElement.id;
+        
         let info = localStorage;
         for (prop in info) {
             //check to see if value is an array
@@ -126,8 +127,8 @@ function removeKey(ev) {
                         checkId = "Id" + item.Id;
                         
                         if (checkId == getId) {
-                          
-                            val.splice(item, 1);
+                         
+                            val.splice(index, 1);
                             val = JSON.stringify(val);
                             localStorage.setItem("trop0007", val);
                             
