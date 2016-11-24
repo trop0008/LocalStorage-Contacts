@@ -1,117 +1,201 @@
 var output = document.querySelector("#output");
-var checkRemove = false;
-
+var idCounter = 1;
 // reading and showing the local storage:
 function showStorage() {
     // adding default data 
     if (!localStorage.getItem("trop0007")) {
         let temp = [{
-            "Id": "Id0"
+            "Id": 1
             , "fullname": "Marjan Tropper"
-            , "phone": "613-862-7210"
             , "email": "trop0008@algonquinlive.com"
+            , "phone": "613-862-7210"
         }];
         temp = JSON.stringify(temp);
         localStorage.setItem("trop0007", temp);
     }
-    // showForm(false);
+    else {
+        let info = localStorage;
+        for (prop in info) {
+            //check to see if value is an array
+            let val;
+            let checkId;
+            if (info[prop].indexOf("[") > -1) {
+                val = JSON.parse(info[prop]);
+                if (val.length == 0) {
+                    let temp = [{
+                        "Id": 1
+                        , "fullname": "Marjan Tropper"
+                        , "email": "trop0008@algonquinlive.com"
+                        , "phone": "613-862-7210"
+        }];
+                    temp = JSON.stringify(temp);
+                    localStorage.setItem("trop0007", temp);
+                    idCounter = 0;
+                }
+            }
+        }
+    }
     displayStorage();
 }
 // editing the the content
 function editKey(ev) {
-    let getId = ev.currentTarget.parentElement.id;
-    alert("calling edit Key " + getId)
-}
-// removing the content
-function removeKey(ev) {
-    if(ev.currentTarget){
-    let getId = ev.currentTarget.parentElement.id;
-    
-    
-    let info = localStorage;
-    for (prop in info) {
-        
-        //check to see if value is an array
-        let val;
-        
-        if (info[prop].indexOf("[") > -1) {
-            val = JSON.parse(info[prop]);
-            if (Array.isArray(val)) {
-               
-                     
-                val.forEach(function (item, index) {
-                 if (item.Id== getId ) {
-                     console.log(item.Id +" "+ getId);
-               val.splice(item,1);
-                      val=JSON.stringify(val);
-                     
-                      
-                localStorage.setItem("trop0007", val);
-                     console.log(val);
-                     
-                     let spanDelete = document.getElementById("span" + getId); 
-                        spanDelete.removeEventListener("click", removeKey);
-                    let spanEdit = document.getElementById("spanedit" + getId);
-                    
-                    spanEdit.removeEventListener("click", editKey);
-                     console.log(spanDelete);
-                     console.log(spanEdit);
-                     let element = document.getElementById(getId); 
-                     element.parentNode.removeChild(element);
-                     
-                     
-                     
-                 }
-                     
-                   
-                    
-                   
-                });
-                
-               
-               
-                
+    if (ev.currentTarget) {
+        let getId = ev.currentTarget.parentElement.id;
+        let info = localStorage;
+        for (prop in info) {
+            //check to see if value is an array
+            let val;
+            let checkId;
+            if (info[prop].indexOf("[") > -1) {
+                val = JSON.parse(info[prop]);
+                if (Array.isArray(val)) {
+                    val.forEach(function (item, index) {
+                        checkId = "Id" + item.Id;
+                        
+                        if (checkId == getId) {
+                            document.getElementById("fullnameMod").value = item.fullname;
+                            document.getElementById("emailMod").value = item.email;
+                            document.getElementById("phoneMod").value = item.phone;
+                            document.getElementById("IdMod").value = getId;
+                            document.querySelector("#editModal").style.display = "block";
+                            document.querySelector(".overlay").style.display = "block";
+                        }
+                    });
+                }
             }
         }
     }
+}
+
+function updateKey(ev) {
+    document.querySelector(".modal").style.display = "none";
+    document.querySelector(".overlay").style.display = "block";
+    let getId = document.getElementById("IdMod").value;
+    if (getId != "") {
+        let info = localStorage;
+        for (prop in info) {
+            //check to see if value is an array
+            let val;
+            let checkId;
+            if (info[prop].indexOf("[") > -1) {
+                val = JSON.parse(info[prop]);
+                if (Array.isArray(val)) {
+                    val.forEach(function (item, index) {
+                        checkId = "Id" + item.Id;
+                        
+                        if (checkId == getId) {
+                            let fullname = document.getElementById("fullnameMod").value;
+                            let phone = document.getElementById("phoneMod").value;
+                            let email = document.getElementById("emailMod").value;
+                            item.fullname = fullname;
+                            item.email = email;
+                            item.phone = phone;
+                            val = JSON.stringify(val);
+                            localStorage.setItem("trop0007", val);
+                           
+                            displayStorage();
+                            document.querySelector(".overlay").style.display = "none";
+                            document.querySelector("#editModal").style.display = "none";
+                            
+                            
+                            document.getElementById("fullnameMod").value = "";
+                            document.getElementById("emailMod").value = "";
+                            document.getElementById("phoneMod").value = "";
+                            document.getElementById("IdMod").value = "";
+                        }
+                    });
+                }
+            }
+        }
     }
-    
-    
+}
+// removing the content
+function removeKey(ev) {
+    document.querySelector(".overlay").style.display = "block";
+    if (ev.currentTarget) {
+        let getId = ev.currentTarget.parentElement.id;
+        let info = localStorage;
+        for (prop in info) {
+            //check to see if value is an array
+            let val;
+            let checkId;
+            if (info[prop].indexOf("[") > -1) {
+                val = JSON.parse(info[prop]);
+                if (Array.isArray(val)) {
+                    val.forEach(function (item, index) {
+                        checkId = "Id" + item.Id;
+                        
+                        if (checkId == getId) {
+                          
+                            val.splice(item, 1);
+                            val = JSON.stringify(val);
+                            localStorage.setItem("trop0007", val);
+                            
+                            let spanDelete = document.getElementById("span" + getId);
+                            spanDelete.removeEventListener("click", removeKey);
+                            let spanEdit = document.getElementById("spanedit" + getId);
+                            spanEdit.removeEventListener("click", editKey);
+                            let element = document.getElementById(getId);
+                            element.parentNode.removeChild(element);
+                            displayStorage();
+                            document.querySelector(".overlay").style.display = "none";
+                        }
+                    });
+                }
+            }
+        }
+    }
 }
 // adding content:
 function addData() {
     let info = localStorage;
     for (prop in info) {
-        
         //check to see if value is an array
         let val;
-        
         if (info[prop].indexOf("[") > -1) {
             val = JSON.parse(info[prop]);
             if (Array.isArray(val)) {
-               console.log(val.length) 
-               console.log(val) 
-              console.log(document.getElementById("fullname").value) ;
                 
-               let myId= "Id"+ val.length;
+                idCounter++;
+                let fullname = document.getElementById("fullname").value;
+                let phone = document.getElementById("phone").value;
+                let email = document.getElementById("email").value;
+                let itemId = idCounter;
+                
                 let newData = [{
-            "Id": myId
-            , "fullname": document.getElementById("fullname").value
-            , "phone": document.getElementById("phone").value
-            , "email": document.getElementById("email").value
+                    "Id": idCounter
+                    , "fullname": fullname
+                    , "email": email
+                    , "phone": phone
         }];
-                
-              
                 newData.forEach(function (item, index) {
-                  
-                val.push(item);
-                console.log(val);
+                    val.push(item);
+                    
                 });
-                val=JSON.stringify(val)
+                // saving the updated local storage
+                val = JSON.stringify(val)
                 localStorage.setItem("trop0007", val);
-                displayStorage();
+                // adding contact on the html
+                let section = document.getElementById("allData");
+                let li = document.createElement("li");
+                li.innerHTML = "<span class='delete' id='spanId" + idCounter + "'></span><span id='spaneditId" + itemId + "'><h3>" + fullname + "</h3><p class='email'>" + email + "</p><p class='phone'>" + phone + "</p></span>";
+                li.className = "contact";
+                li.id = "Id" + itemId;
+                section.appendChild(li);
+                let spanDelete = document.getElementById("spanId" + itemId);
+                if (spanDelete) {
+                    spanDelete.addEventListener("click", removeKey);
+                }
+                let spanEdit = document.getElementById("spaneditId" + itemId);
+                if (spanEdit) {
+                    spanEdit.addEventListener("click", editKey);
+                }
                 document.querySelector(".overlay").style.display = "none";
-                document.querySelector(".modal").style.display = "none";
+                document.querySelector("#modalAdd").style.display = "none";
+                document.getElementById("fullname").value = "";
+                            document.getElementById("email").value ="";
+                            document.getElementById("phone").value = "";
+                            
             }
         }
     }
@@ -123,44 +207,39 @@ function displayStorage() {
     section.innerHTML = "";
     let info = localStorage;
     for (prop in info) {
-        
         //check to see if value is an array
         let val;
-        
         if (info[prop].indexOf("[") > -1) {
             val = JSON.parse(info[prop]);
             if (Array.isArray(val)) {
                 var docfrag = document.createDocumentFragment();
-                var indexLength = val.length;
                 val.forEach(function (item, index) {
-                    myCounter = index;
+                    if (idCounter <= item.Id) {
+                        idCounter = item.Id;
+                    }
                     let li = document.createElement("li");
-                    li.innerHTML = "<span class='delete' id='span" + item.Id + "'></span><span id='spanedit" + item.Id + "'><h3>" + item.fullname + "</h3><p class='email'>" + item.email + "</p><p class='phone'>" + item.phone + "</p></span>";
+                    li.innerHTML = "<span class='delete' id='spanId" + item.Id + "'></span><span id='spaneditId" + item.Id + "'><h3>" + item.fullname + "</h3><p class='email'>" + item.email + "</p><p class='phone'>" + item.phone + "</p></span>";
                     li.className = "contact";
-                    li.id = item.Id;
+                    li.id = "Id" + item.Id;
                     docfrag.appendChild(li);
-                    console.log(item);
+                    
                 });
                 section.appendChild(docfrag);
-                for (let x = 0; x < indexLength; x++) {
+                for (let x = 0; x <= idCounter; x++) {
                     let spanDelete = document.getElementById("spanId" + x);
-                  
-                     console.log(x);
-                   
-                    if(spanDelete){
-                        console.log
-                         spanDelete.addEventListener("click", removeKey);
+                    
+                    if (spanDelete) {
+                        
+                        spanDelete.addEventListener("click", removeKey);
                     }
                     let spanEdit = document.getElementById("spaneditId" + x);
-                     if(spanEdit){
-                          spanEdit.addEventListener("click", editKey);
+                    if (spanEdit) {
+                        spanEdit.addEventListener("click", editKey);
                     }
-                   
                 }
             }
         }
     }
-   
 }
 
 function init() {
@@ -168,25 +247,29 @@ function init() {
         if (localStorage) {
             //add listener to button
             showStorage();
+            
+            document.querySelector("#btnModClose").addEventListener("click", function (ev) {
+                ev.preventDefault();
+                /* if the button was a submit button we need to stop the form submitting */
+                document.querySelector(".overlay").style.display = "none";
+                document.querySelector("#editModal").style.display = "none";
+            });
             document.querySelector("#btnClose").addEventListener("click", function (ev) {
                 ev.preventDefault();
                 /* if the button was a submit button we need to stop the form submitting */
                 document.querySelector(".overlay").style.display = "none";
-                document.querySelector(".modal").style.display = "none";
+                document.querySelector("#modalAdd").style.display = "none";
                 /* Add any code you need to process the contents of the form 
                   shown in the modal window */
             });
-           
-                document.querySelector(".overlay").style.display = "none";
-                document.querySelector(".modal").style.display = "none";
-                
-            
+            document.querySelector(".overlay").style.display = "none";
+            document.querySelector("#modalAdd").style.display = "none";
+            document.querySelector("#editModal").style.display = "none";
             document.querySelector("#btnOpenModal").addEventListener("click", function (ev) {
                 ev.preventDefault();
                 /* if the button was a submit button we need to stop the form submitting */
                 document.querySelector(".overlay").style.display = "block";
-                document.querySelector(".modal").style.display = "block";
-              
+                document.querySelector("#modalAdd").style.display = "block";
             });
         }
         else {
@@ -198,8 +281,5 @@ function init() {
         console.log(err.message);
     }
 }
-
-
-
 // checking to see if the document is loaded and initiating the functions
 document.addEventListener("DOMContentLoaded", init);

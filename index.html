@@ -57,9 +57,49 @@
   </main>
   <footer>
    <div class="overlay"></div>
-  <div class="modal">
+    <div class="modal" id="editModal">
   <!-- content to show the user. Often this will contain a form -->
-  <button id="btnClose">Cancel</button>
+  <button id="btnModClose" alt="Cancel"></button>
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+
+    <form class="form" id="form2" action="javascript:updateKey()" >
+      
+      <p class="name">
+        <input name="fullnameMod" type="text" class="feedback-input" placeholder="Full Name" id="fullnameMod" autofocus required />
+      </p>
+      
+      <p class="email">
+        <input name="emailMod" type="email" class="feedback-input" id="emailMod" placeholder="Email" required />
+      </p>
+      <p class="phone">
+        <input name="phoneMod" type="tel"  id="phoneMod"  class="feedback-input" placeholder="Phone Number xxx-xxx-xxxx " pattern='\d{3}[\-]\d{3}[\-]\d{4}' required />
+        <input type="hidden" id="IdMod" value="">
+      </p>
+      
+      
+      
+      
+      <div class="submit">
+        <input type="submit"  value="Save" id="button-blueMod"/>
+        <div class="ease"></div>
+      </div>
+    </form>
+ 
+  
+  
+  
+</div>
+  <div class="modal" id="modalAdd">
+  <!-- content to show the user. Often this will contain a form -->
+  <button id="btnClose"  alt="Cancel"></button>
   
   
   

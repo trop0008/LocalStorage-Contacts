@@ -115,8 +115,23 @@ header h1{
 }
 
 
-#btnClose{
+#btnClose, #btnModClose {
     float: right;
+    
+  width: 2rem;
+  height: 2rem;
+  background-color: #e4e4e4;
+  text-align:center;
+  line-height:2rem;
+  font-size: 2rem;
+  display:block;
+  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/179202/circle-x.svg);
+  background-repeat: no-repeat;
+  
+  background-position: center center;
+  
+  
+  cursor: pointer;
     
 }
 
@@ -249,7 +264,7 @@ header h1{
 
 
 
-#button-blue{
+#button-blue, #button-blueMod{
 	font-family: 'Montserrat', Helvetica, Arial,  sans-serif;
 	float:left;
 	width: 100%;
@@ -265,7 +280,7 @@ header h1{
 	transition: all 0.3s;
 }
 
-#button-blue:hover{
+#button-blue:hover , #button-blueMod:hover{
 	background-color: rgba(0,0,0,0);
 	color: #0493bd;
 }
